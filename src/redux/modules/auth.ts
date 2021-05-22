@@ -1,5 +1,5 @@
 import { push } from "connected-react-router";
-import { Action, bindActionCreators } from "redux";
+import { Action } from "redux";
 import { createActions, handleActions } from "redux-actions";
 import { call, put, takeEvery } from "redux-saga/effects";
 import TokenService from "../../services/TokenService";
@@ -55,7 +55,7 @@ export default reducer;
 //saga
 export const { login, logout } = createActions("LOGIN", "LOGOUT", { prefix });
 
-function* loginSaga(action: Action<LoginReqType>) {
+function* loginSaga(action:Action<LoginReqType>) {
    try {
        yield put(pending());
        const token: string = yield call(UserService.login, action.payload);

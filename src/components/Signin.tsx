@@ -1,7 +1,15 @@
 import { Row, Col, Input, Button } from 'antd';
+import { useRef } from 'react';
+import { LoginReqType } from '../types';
 import styles from './Signin.module.css';
 
-export default function Signin() {
+interface SigninProps {
+    login: (reqData: LoginReqType) => void;
+}
+
+const Signin: React.FC<SigninProps> = ({login}) =>{
+    const emailRef = useRef<Input>(null);
+    const passwordRef = useRef<Input>(null);
     return (
         <Row align="middle" className={styles.signin_row}>
             <Col span={24}>
@@ -18,24 +26,42 @@ export default function Signin() {
                         </div>
                         
                         <div className={styles.input_area}>
-                            <Input placeholder="EMail"
-                            autoComplete="email" name="email" className={styles.input_area}/>
+                            <Input 
+                                placeholder="EMail"
+                                autoComplete="email" 
+                                name="email" 
+                                className={styles.input_area}
+                                ref={emailRef}
+                            />
                         </div>
                         <div className={styles.password_title}>Password
                             <span className={styles.required}>*</span>
                         </div>
                         <div className={styles.input_area}>
-                            <Input type="password"
-                            autoComplete="current-password" name="email" className={styles.input}/>
+                            <Input 
+                                type="password"
+                                autoComplete="current-password" 
+                                className={styles.input}
+                                ref={passwordRef}
+                            />
 
                         </div>
                         <div className={styles.button_area}>
-                            <Button size="large" className={styles.button}>Sign in</Button>
+                            <Button size="large" className={styles.button}
+                            onClick={click}>Sign in</Button>
                         </div>
                     </Col>
                 </Row>
             </Col>
         </Row>
-    )
+    );
+
+    function click(){
+        const email = emailRef.current!.state.value;
+        const password = passwordRef.current!.state.value;
+
+        login({email, password})
+    }
     
 }
+export default Signin
